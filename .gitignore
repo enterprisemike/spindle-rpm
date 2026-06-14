@@ -1,0 +1,13 @@
+# Arduino build artifacts
+*.elf
+*.hex
+*.bin
+*.map
+
+# Arduino IDE temporary/preprocessed files
+*.ino.cpp
+*.ino.cpp.d
+
+# OS/editor files
+.DS_Store
+Thumbs.db

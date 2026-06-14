@@ -1,0 +1,68 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "PIO: Build",
+      "type": "shell",
+      "command": "pio",
+      "args": [
+        "run"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "PIO: Upload",
+      "type": "shell",
+      "command": "pio",
+      "args": [
+        "run",
+        "-t",
+        "upload"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "PIO: Upload (COM3)",
+      "type": "shell",
+      "command": "pio",
+      "args": [
+        "run",
+        "-t",
+        "upload",
+        "--upload-port",
+        "COM3"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "PIO: Monitor (COM3, 115200)",
+      "type": "shell",
+      "command": "pio",
+      "args": [
+        "device",
+        "monitor",
+        "--port",
+        "COM3",
+        "--baud",
+        "115200"
+      ],
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "PIO: Clean",
+      "type": "shell",
+      "command": "pio",
+      "args": [
+        "run",
+        "-t",
+        "clean"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}
