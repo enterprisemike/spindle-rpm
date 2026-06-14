@@ -25,14 +25,15 @@ On power-up, the OLED runs a startup count animation from `0` to `10000` over `5
 
 - `VCC` -> `5V`
 - `GND` -> `GND`
-- `DO` (digital output) -> `D2` (external interrupt pin)
+- `DO`/`D0` (digital output) -> `D2` (external interrupt pin)
+- `A0` (analog output) -> not used in this firmware (leave unconnected unless you want analog field-strength sensing)
 
 ### OLED I2C Display -> Arduino Nano
 
 - `VCC` -> `5V`
 - `GND` -> `GND`
 - `SDA` -> `A4`
-- `SCL` -> `A5`
+- `SCK` -> `A5`
 
 ## How RPM is Calculated
 

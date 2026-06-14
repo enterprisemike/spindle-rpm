@@ -9,7 +9,8 @@ static const uint8_t OLED_ADDRESS = 0x3C;
 
 static const uint8_t HALL_SENSOR_PIN = 2;
 static const uint8_t PULSES_PER_REV = 1;
-static const uint32_t MIN_PULSE_INTERVAL_US = 800;
+static const uint32_t ABSOLUTE_MIN_PULSE_INTERVAL_US = 2500;
+static const uint8_t RE_TRIGGER_DIVISOR = 4;
 static const uint32_t SIGNAL_TIMEOUT_MS = 1200;
 static const uint32_t DISPLAY_REFRESH_MS = 100;
 
@@ -28,8 +29,16 @@ void onPulse()
 {
   const uint32_t nowUs = micros();
   const uint32_t deltaUs = nowUs - lastPulseUs;
+  uint32_t adaptiveLockoutUs = ABSOLUTE_MIN_PULSE_INTERVAL_US;
 
-  if (deltaUs >= MIN_PULSE_INTERVAL_US) {
+  if (pulseIntervalUs > 0) {
+    const uint32_t retriggerGuardUs = pulseIntervalUs / RE_TRIGGER_DIVISOR;
+    if (retriggerGuardUs > adaptiveLockoutUs) {
+      adaptiveLockoutUs = retriggerGuardUs;
+    }
+  }
+
+  if (deltaUs >= adaptiveLockoutUs) {
     pulseIntervalUs = deltaUs;
     lastPulseUs = nowUs;
   }
@@ -51,20 +60,30 @@ void drawCenteredLabel(const char *label)
 void drawRpmScreen(uint16_t rpm)
 {
   display.clearDisplay();
-  drawCenteredLabel("SPINDLE RPM");
-
-  display.setTextColor(SSD1306_WHITE);
-  display.setTextSize(3);
 
   char rpmText[8];
   snprintf(rpmText, sizeof(rpmText), "%u", rpm);
 
+  display.setTextColor(SSD1306_WHITE);
+
+  uint8_t bestSize = 1;
   int16_t x1;
   int16_t y1;
   uint16_t w;
   uint16_t h;
+
+  for (uint8_t size = 10; size >= 1; size--) {
+    display.setTextSize(size);
+    display.getTextBounds(rpmText, 0, 0, &x1, &y1, &w, &h);
+    if (w <= SCREEN_WIDTH && h <= SCREEN_HEIGHT) {
+      bestSize = size;
+      break;
+    }
+  }
+
+  display.setTextSize(bestSize);
   display.getTextBounds(rpmText, 0, 0, &x1, &y1, &w, &h);
-  display.setCursor((SCREEN_WIDTH - w) / 2, 28);
+  display.setCursor((SCREEN_WIDTH - w) / 2, (SCREEN_HEIGHT - h) / 2 - y1);
   display.print(rpmText);
 
   display.display();
