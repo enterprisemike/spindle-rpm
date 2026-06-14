@@ -73,21 +73,21 @@ Build:
 
 ```powershell
 Set-Location "C:\Users\mike\source\Arduino-ESP\SpindleRPM"
-pio run
+& "$env:USERPROFILE\.platformio\python3\python.exe" -m platformio run --project-dir ".\src"
 ```
 
 Upload (replace COM port if needed):
 
 ```powershell
 Set-Location "C:\Users\mike\source\Arduino-ESP\SpindleRPM"
-pio run -t upload --upload-port COM3
+& "$env:USERPROFILE\.platformio\python3\python.exe" -m platformio run -t upload --project-dir ".\src" --upload-port COM3
 ```
 
 Serial monitor:
 
 ```powershell
 Set-Location "C:\Users\mike\source\Arduino-ESP\SpindleRPM"
-pio device monitor --port COM3 --baud 115200
+& "$env:USERPROFILE\.platformio\python3\python.exe" -m platformio device monitor --port COM3 --baud 115200
 ```
 
 ## VS Code Tasks

@@ -4,9 +4,13 @@
     {
       "label": "PIO: Build",
       "type": "shell",
-      "command": "pio",
+      "command": "${env:USERPROFILE}\\.platformio\\python3\\python.exe",
       "args": [
-        "run"
+        "-m",
+        "platformio",
+        "run",
+        "--project-dir",
+        "${workspaceFolder}\\src"
       ],
       "group": {
         "kind": "build",
@@ -17,22 +21,30 @@
     {
       "label": "PIO: Upload",
       "type": "shell",
-      "command": "pio",
+      "command": "${env:USERPROFILE}\\.platformio\\python3\\python.exe",
       "args": [
+        "-m",
+        "platformio",
         "run",
         "-t",
-        "upload"
+        "upload",
+        "--project-dir",
+        "${workspaceFolder}\\src"
       ],
       "problemMatcher": []
     },
     {
       "label": "PIO: Upload (COM3)",
       "type": "shell",
-      "command": "pio",
+      "command": "${env:USERPROFILE}\\.platformio\\python3\\python.exe",
       "args": [
+        "-m",
+        "platformio",
         "run",
         "-t",
         "upload",
+        "--project-dir",
+        "${workspaceFolder}\\src",
         "--upload-port",
         "COM3"
       ],
@@ -41,8 +53,10 @@
     {
       "label": "PIO: Monitor (COM3, 115200)",
       "type": "shell",
-      "command": "pio",
+      "command": "${env:USERPROFILE}\\.platformio\\python3\\python.exe",
       "args": [
+        "-m",
+        "platformio",
         "device",
         "monitor",
         "--port",
@@ -56,11 +70,15 @@
     {
       "label": "PIO: Clean",
       "type": "shell",
-      "command": "pio",
+      "command": "${env:USERPROFILE}\\.platformio\\python3\\python.exe",
       "args": [
+        "-m",
+        "platformio",
         "run",
         "-t",
-        "clean"
+        "clean",
+        "--project-dir",
+        "${workspaceFolder}\\src"
       ],
       "problemMatcher": []
     }
